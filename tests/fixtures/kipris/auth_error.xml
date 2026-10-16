@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<response>
+  <header>
+    <successYN>N</successYN>
+    <resultCode>30</resultCode>
+    <resultMsg>SERVICE KEY IS NOT REGISTERED ERROR.</resultMsg>
+  </header>
+  <body/>
+  <count>
+    <totalCount>0</totalCount>
+  </count>
+</response>
