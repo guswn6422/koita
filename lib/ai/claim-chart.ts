@@ -3,7 +3,9 @@ import { z } from "zod";
 import { AiError, structuredCall } from "./llm";
 import { CLAIM_CHART_PROMPT_VERSION, CLAIM_CHART_SYSTEM, claimChartUserMessage } from "./prompts/claim-chart";
 
-export const AVOID_POINTS = ["삭제", "치환", "결합방식 변경", "수치범위", "배치 변경"] as const;
+import { AVOID_POINTS } from "./avoid-points";
+
+export { AVOID_POINTS };
 
 const ClaimChartResult = z.object({
   claimNo: z.number().int(),

@@ -45,3 +45,6 @@ next-env.d.ts
 
 # 로컬 데모 DB (PGlite)
 /.data
+
+# MCP 서버가 저장하는 보고서 (로컬 산출물)
+/reports

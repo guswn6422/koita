@@ -54,6 +54,32 @@ npm run dev
 - 대시보드 → **전체 수집** → **미분류 일괄 분류** → **모니터링 지금 실행** 순서로 시연합니다.
 - 모니터링 화면의 **시연 준비: 기준에서 1건 삭제** → **지금 실행**으로 "신규 1건 감지" 장면을 만들 수 있습니다.
 
+## Claude 채팅에서 쓰기 (MCP 서버)
+
+앱의 KIPRIS 클라이언트·위험도 규칙·보고서 모듈을 MCP 도구로 묶어, Claude 데스크톱 앱 채팅에서 바로 특허를 검색하고 보고서를 저장할 수 있습니다.
+역할 분담은 앱과 같습니다: **사실은 KIPRIS, 규칙(위험도·금지어)은 코드, 분류·청구항 분해는 대화 중인 Claude.**
+
+| 도구 | 하는 일 |
+|---|---|
+| `gtt_portfolio` | GTT 한국 특허 전체(약 554건)를 받아 검색어·상태군·출원연도·IPC로 필터하고 집계 (30분 캐시) |
+| `kipris_search` | 일반 KIPRIS 검색 (자유어 / 명칭·출원인·IPC·기간) — 경쟁사·국내 동향 비교용 |
+| `kipris_patent_detail` | 서지상세 + 독립항 전문·종속항 요약 |
+| `gtt_analysis_guide` | 계열·층위 판별 단서, 청구항 분해 템플릿, 위험도·품질 규칙 |
+| `compute_risk` | 상태·층위·구성요소 수 → 위험도 (결정적 규칙) |
+| `save_claim_chart_report` | 청구항 분해표를 `reports/claim_chart_<출원번호>.md`로 저장 (금지 표현이 있으면 저장 거부) |
+| `save_patent_report` | 본문에 고지 머리말 + KIPRIS로 재확인한 대상 특허 표를 붙여 `reports/*.md`로 저장 |
+
+프롬프트 `gtt_patent_report`(주제 입력)를 고르면 검색 → 분해 → 위험도 → 보고서 저장 순서로 진행합니다.
+
+**설치**: `npm run mcp:register` → Claude 데스크톱 앱을 완전히 종료(트레이 아이콘 포함) 후 다시 실행.
+설정 파일 `%APPDATA%\Claude\claude_desktop_config.json`의 `mcpServers.gtt-patent`에 등록되며 기존 설정은 `.bak`으로 백업됩니다.
+점검: `npm run mcp:smoke` (서버를 stdio로 띄워 모든 도구를 호출). 서버는 `.env.local`의 `KIPRIS_PLUS_API_KEY`만 사용하고 앱의 로컬 DB는 열지 않습니다.
+
+채팅 예시
+- "GTT의 코너부 앵커링 관련 등록 특허를 찾아서 최근 5년 동향을 정리해줘"
+- "10-2018-0077195 청구항 1항을 분해해서 분해표로 저장해줘"
+- "한화오션과 GTT의 멤브레인 코너 단열 특허를 비교하는 보고서를 써서 저장해줘"
+
 ## 환경 변수
 
 `.env.example` 참고. 값은 `.env.local`(로컬) 또는 Vercel Project Settings에만 둡니다.

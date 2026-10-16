@@ -10,11 +10,15 @@
     "test": "vitest run",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "kipris:probe": "tsx scripts/kipris-probe.ts"
+    "kipris:probe": "tsx scripts/kipris-probe.ts",
+    "mcp": "tsx mcp/server.mts",
+    "mcp:smoke": "tsx scripts/mcp-smoke.mts",
+    "mcp:register": "node scripts/register-mcp.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.135.0",
     "@electric-sql/pglite": "^0.5.10",
+    "@modelcontextprotocol/sdk": "^1.32.1",
     "@neondatabase/serverless": "^1.2.0",
     "drizzle-orm": "^0.45.4",
     "fast-xml-parser": "^5.11.2",
